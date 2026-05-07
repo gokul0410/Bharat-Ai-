@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRPF Tender Evaluation System</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="scanline-overlay"></div>
+<div class="grid-bg"></div>
+
+<!-- SIDEBAR NAV -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-emblem">
+      <svg viewBox="0 0 60 60" width="44" height="44">
+        <polygon points="30,4 56,18 56,42 30,56 4,42 4,18" fill="none" stroke="#e8a317" stroke-width="2"/>
+        <polygon points="30,12 48,22 48,38 30,48 12,38 12,22" fill="none" stroke="#e8a317" stroke-width="1" opacity="0.5"/>
+        <text x="30" y="35" text-anchor="middle" font-size="14" font-weight="bold" fill="#e8a317" font-family="Rajdhani">CRPF</text>
+      </svg>
+    </div>
+    <div class="logo-text">
+      <span class="logo-main">TenderShield</span>
+      <span class="logo-sub">Procurement Intelligence</span>
+    </div>
+  </div>
+  <div class="nav-section-label">CORE MODULES</div>
+  <ul class="nav-links">
+    <li class="nav-item active" data-tab="dashboard" onclick="switchTab('dashboard')">
+      <span class="nav-icon">◈</span> Dashboard
+    </li>
+    <li class="nav-item" data-tab="vendors" onclick="switchTab('vendors')">
+      <span class="nav-icon">◈</span> Vendor Registry
+    </li>
+    <li class="nav-item" data-tab="documents" onclick="switchTab('documents')">
+      <span class="nav-icon">◈</span> Document Verification
+    </li>
+    <li class="nav-item" data-tab="price" onclick="switchTab('price')">
+      <span class="nav-icon">◈</span> Price Analysis
+    </li>
+    <li class="nav-item" data-tab="compliance" onclick="switchTab('compliance')">
+      <span class="nav-icon">◈</span> Compliance Check
+    </li>
+    <li class="nav-item" data-tab="risk" onclick="switchTab('risk')">
+      <span class="nav-icon">◈</span> Risk & Anomaly
+    </li>
+    <li class="nav-item" data-tab="scenario" onclick="switchTab('scenario')">
+      <span class="nav-icon">◈</span> Scenario Simulator
+    </li>
+    <li class="nav-item" data-tab="trust" onclick="switchTab('trust')">
+      <span class="nav-icon">◈</span> Trust Score Engine
+    </li>
+  </ul>
+  <div class="nav-section-label">SYSTEM</div>
+  <ul class="nav-links">
+    <li class="nav-item" data-tab="reports" onclick="switchTab('reports')">
+      <span class="nav-icon">◈</span> Reports
+    </li>
+  </ul>
+  <div class="sidebar-footer">
+    <div class="status-dot active"></div>
+    <span>SYSTEM ONLINE</span>
+    <span class="version">v2.4.1</span>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+  <header class="top-bar">
+    <div class="top-bar-left">
+      <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+      <div class="breadcrumb" id="breadcrumb">Dashboard</div>
+    </div>
+    <div class="top-bar-right">
+      <div class="live-clock" id="liveClock"></div>
+      <div class="alert-bell" onclick="toggleAlerts()">
+        🔔 <span class="alert-count" id="alertCount">3</span>
+      </div>
+      <div class="officer-badge">
+        <div class="badge-avatar">KS</div>
+        <div>
+          <div class="badge-name">Cmdr. K. Singh</div>
+          <div class="badge-role">Procurement Officer</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ALERT PANEL -->
+  <div class="alert-panel" id="alertPanel" style="display:none">
+    <div class="alert-item critical"><span>🚨</span> Vendor BID-004 flagged: price 42% below market</div>
+    <div class="alert-item warning"><span>⚠️</span> Document expiry: FireArms Cert (BID-007) in 12 days</div>
+    <div class="alert-item info"><span>ℹ️</span> Tender TND-2024-089 compliance review due tomorrow</div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--                  DASHBOARD TAB                  -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content active" id="tab-dashboard">
+    <div class="page-header">
+      <h1>MISSION OVERVIEW</h1>
+      <div class="tender-id-badge">Active Tender: TND-2024-089 | Tactical Equipment Procurement</div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">TOTAL BIDDERS</div>
+        <div class="kpi-value" data-target="12">0</div>
+        <div class="kpi-sub">↑ 3 new this week</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">DOCS VERIFIED</div>
+        <div class="kpi-value" data-target="84" data-suffix="%">0</div>
+        <div class="kpi-sub">8 pending review</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">COMPLIANCE RATE</div>
+        <div class="kpi-value" data-target="67" data-suffix="%">0</div>
+        <div class="kpi-sub">4 vendors non-compliant</div>
+      </div>
+      <div class="kpi-card critical">
+        <div class="kpi-label">RISK FLAGS</div>
+        <div class="kpi-value" data-target="5">0</div>
+        <div class="kpi-sub">2 critical · 3 moderate</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">AVG TRUST SCORE</div>
+        <div class="kpi-value" data-target="72" data-suffix="/100">0</div>
+        <div class="kpi-sub">Industry benchmark: 65</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">BUDGET UTILIZATION</div>
+        <div class="kpi-value" data-target="91" data-suffix="%">0</div>
+        <div class="kpi-sub">₹4.8Cr of ₹5.2Cr</div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="card span-2">
+        <div class="card-header">Bid Distribution by Vendor</div>
+        <div class="chart-container">
+          <canvas id="bidChart" width="600" height="220"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">Compliance Status</div>
+        <canvas id="compliancePie" width="260" height="220"></canvas>
+      </div>
+
+      <div class="card span-2">
+        <div class="card-header">Recent Bid Activity</div>
+        <table class="data-table">
+          <thead><tr><th>Vendor ID</th><th>Company</th><th>Bid (₹ Cr)</th><th>Trust Score</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>BID-001</td><td>Alpha Defence Pvt Ltd</td><td>4.82</td><td><span class="score-badge high">88</span></td><td><span class="status-tag green">Qualified</span></td></tr>
+            <tr><td>BID-002</td><td>Bharat Arms Co.</td><td>5.10</td><td><span class="score-badge high">79</span></td><td><span class="status-tag green">Qualified</span></td></tr>
+            <tr><td>BID-003</td><td>Frontier Logistics</td><td>3.95</td><td><span class="score-badge mid">61</span></td><td><span class="status-tag yellow">Review</span></td></tr>
+            <tr><td>BID-004</td><td>SwiftDeal Traders</td><td>2.90</td><td><span class="score-badge low">34</span></td><td><span class="status-tag red">🚨 Flagged</span></td></tr>
+            <tr><td>BID-005</td><td>National Security Supplies</td><td>4.67</td><td><span class="score-badge high">82</span></td><td><span class="status-tag green">Qualified</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="card-header">Timeline</div>
+        <div class="timeline">
+          <div class="tl-item done"><div class="tl-dot"></div><div><b>Tender Published</b><br><small>Nov 01, 2024</small></div></div>
+          <div class="tl-item done"><div class="tl-dot"></div><div><b>Bid Submission Closed</b><br><small>Nov 15, 2024</small></div></div>
+          <div class="tl-item active"><div class="tl-dot"></div><div><b>Document Verification</b><br><small>In Progress</small></div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div><b>Price Evaluation</b><br><small>Nov 25, 2024</small></div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div><b>Award Decision</b><br><small>Dec 05, 2024</small></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--                VENDOR REGISTRY TAB              -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="tab-vendors">
+    <div class="page-header">
+      <h1>VENDOR REGISTRY</h1>
+      <button class="btn-primary" onclick="openAddVendor()">+ Register Vendor</button>
+    </div>
+    <div class="filter-bar">
+      <input type="text" class="filter-input" placeholder="Search vendor name / ID..." oninput="filterVendors(this.value)">
+      <select class="filter-select" onchange="filterByStatus(this.value)">
+        <option value="">All Status</option>
+        <option value="Qualified">Qualified</option>
+        <option value="Review">Under Review</option>
+        <option value="Flagged">Flagged</option>
+        <option value="Disqualified">Disqualified</option>
+      </select>
+      <select class="filter-select">
+        <option value="">All Categories</option>
+        <option>Tactical Equipment</option>
+        <option>Logistics</option>
+        <option>IT Infrastructure</option>
+        <option>Vehicles</option>
+      </select>
+    </div>
+    <div class="vendor-grid" id="vendorGrid"></div>
+
+    <!-- Add Vendor Modal -->
+    <div class="modal" id="addVendorModal" style="display:none">
+      <div class="modal-box">
+        <div class="modal-header">Register New Vendor <button onclick="closeModal('addVendorModal')">✕</button></div>
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="form-group"><label>Company Name</label><input type="text" class="form-input" id="newVendorName" placeholder="Enter company name"></div>
+            <div class="form-group"><label>Category</label><select class="form-input" id="newVendorCat"><option>Tactical Equipment</option><option>Logistics</option><option>IT Infrastructure</option><option>Vehicles</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>GSTIN</label><input type="text" class="form-input" placeholder="27AAPFU0939F1ZV"></div>
+            <div class="form-group"><label>Years in Operation</label><input type="number" class="form-input" placeholder="e.g. 8"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Bid Amount (₹ Cr)</label><input type="number" class="form-input" id="newVendorBid" placeholder="e.g. 4.5"></div>
+            <div class="form-group"><label>Contact Email</label><input type="email" class="form-input" placeholder="vendor@company.com"></div>
+          </div>
+          <button class="btn-primary" style="width:100%;margin-top:12px" onclick="addVendor()">Register & Evaluate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--             DOCUMENT VERIFICATION TAB           -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="tab-documents">
+    <div class="page-header">
+      <h1>DOCUMENT VERIFICATION</h1>
+      <div class="header-actions">
+        <button class="btn-secondary" onclick="runBulkVerify()">⚡ Run Bulk Verify</button>
+      </div>
+    </div>
+    <div class="doc-vendor-select">
+      <label>Select Vendor:</label>
+      <select class="filter-select" id="docVendorSelect" onchange="loadVendorDocs(this.value)">
+        <option value="">-- Choose Vendor --</option>
+        <option value="BID-001">BID-001 — Alpha Defence Pvt Ltd</option>
+        <option value="BID-002">BID-002 — Bharat Arms Co.</option>
+        <option value="BID-003">BID-003 — Frontier Logistics</option>
+        <option value="BID-004">BID-004 — SwiftDeal Traders</option>
+        <option value="BID-005">BID-005 — National Security Supplies</option>
+      </select>
+    </div>
+    <div id="docChecklistContainer">
+      <div class="empty-state">Select a vendor to view document checklist</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--               PRICE ANALYSIS TAB                -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="tab-price">
+    <div class="page-header">
+      <h1>PRICE ANALYSIS ENGINE</h1>
+    </div>
+    <div class="dashboard-grid">
+      <div class="card span-2">
+        <div class="card-header">Bid Price vs Market Benchmark</div>
+        <canvas id="priceChart" width="600" height="260"></canvas>
+      </div>
+      <div class="card">
+        <div class="card-header">Price Deviation Analysis</div>
+        <div class="deviation-list" id="deviationList"></div>
+      </div>
+      <div class="card span-3">
+        <div class="card-header">Item-Wise Price Breakdown</div>
+        <table class="data-table" id="priceBreakdownTable">
+          <thead><tr><th>Item</th><th>Qty</th><th>Unit Rate (₹)</th><th>BID-001</th><th>BID-002</th><th>BID-003</th><th>Market Rate</th><th>Best Bid</th></tr></thead>
+          <tbody>
+            <tr><td>Tactical Vest (Level IV)</td><td>500</td><td>—</td><td>₹12,500</td><td>₹13,200</td><td>₹9,800</td><td>₹12,000</td><td><span class="status-tag yellow">BID-003 ⚠️</span></td></tr>
+            <tr><td>Night Vision Goggles</td><td>100</td><td>—</td><td>₹45,000</td><td>₹47,500</td><td>₹38,000</td><td>₹44,000</td><td><span class="status-tag red">BID-003 🚨</span></td></tr>
+            <tr><td>Combat Boots (pairs)</td><td>1000</td><td>—</td><td>₹3,200</td><td>₹3,100</td><td>₹3,400</td><td>₹3,300</td><td><span class="status-tag green">BID-002 ✓</span></td></tr>
+            <tr><td>First Aid Kits</td><td>300</td><td>—</td><td>₹1,800</td><td>₹1,750</td><td>₹1,900</td><td>₹1,850</td><td><span class="status-tag green">BID-002 ✓</span></td></tr>
+            <tr><td>Communication Radio Sets</td><td>50</td><td>—</td><td>₹85,000</td><td>₹88,000</td><td>₹71,000</td><td>₹84,000</td><td><span class="status-tag red">BID-003 🚨</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:20px">
+      <div class="card-header">Manual Price Check Tool</div>
+      <div class="price-check-tool">
+        <input type="text" class="form-input" id="pcItem" placeholder="Item name" style="flex:2">
+        <input type="number" class="form-input" id="pcBid" placeholder="Bid price (₹)">
+        <input type="number" class="form-input" id="pcMarket" placeholder="Market price (₹)">
+        <button class="btn-primary" onclick="checkPrice()">Analyze</button>
+      </div>
+      <div id="priceResult" style="margin-top:12px"></div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--               COMPLIANCE CHECK TAB              -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="tab-compliance">
+    <div class="page-header"><h1>COMPLIANCE VERIFICATION</h1></div>
+    <div class="compliance-grid" id="complianceGrid"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--               RISK & ANOMALY TAB                -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="tab-risk">
+    <div class="page-header"><h1>RISK & ANOMALY DETECTION</h1></div>
+    <div class="dashboard-grid">
+      <div class="card span-2">
+        <div class="card-header">🚨 Active Risk Flags</div>
+        <div id="riskFlagsList"></div>
+      </div>
+      <div class="card">
+        <div class="card-header">Risk Heatmap</div>
+        <div id="riskHeatmap"></div>
+      </div>
+      <div class="card span-3">
+        <div class="card-header">Anomaly Pattern Analysis</div>
+        <canvas id="anomalyChart" width="900" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--             SCENARIO SIMULATOR TAB              -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="tab-scenario">
+    <div class="page-header"><h1>SCENARIO SIMULATOR</h1></div>
+    <div class="dashboard-grid">
+      <div class="card">
+        <div class="card-header">Configure Scenario</div>
+        <div class="scenario-form">
+          <div class="form-group">
+            <label>Budget Variation (%)</label>
+            <input type="range" min="-30" max="30" value="0" class="slider" id="budgetSlider" oninput="updateScenario()">
+            <div class="slider-val" id="budgetVal">0%</div>
+          </div>
+          <div class="form-group">
+            <label>Delivery Timeline Pressure</label>
+            <input type="range" min="1" max="10" value="5" class="slider" id="timelineSlider" oninput="updateScenario()">
+            <div class="slider-val" id="timelineVal">5/10</div>
+          </div>
+          <div class="form-group">
+            <label>Quality Requirement</label>
+            <select class="form-input" id="qualitySelect" onchange="updateScenario()">
+              <option value="standard">Standard</option>
+              <option value="enhanced" selected>Enhanced</option>
+              <option value="premium">Premium</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Risk Tolerance</label>
+            <select class="form-input" id="riskSelect" onchange="updateScenario()">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Minimum Trust Score Threshold</label>
+            <input type="range" min="40" max="90" value="65" class="slider" id="trustThreshSlider" oninput="updateScenario()">
+            <div class="slider-val" id="trustThreshVal">65</div>
+          </div>
+          <button class="btn-primary" onclick="runScenario()" style="width:100%;margin-top:12px">▶ Run Simulation</button>
+        </div>
+      </div>
+      <div class="card span-2">
+        <div class="card-header">Simulation Results</div>
+        <div id="scenarioResults">
+          <div class="empty-state">Configure and run a scenario to see results</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--             TRUST SCORE ENGINE TAB              -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="tab-trust">
+    <div class="page-header"><h1>VENDOR TRUST SCORE ENGINE</h1></div>
+    <div class="trust-intro">
+      <p>Trust Score is computed using a weighted model across 5 dimensions: Past Experience, Delivery Quality, Complaints History, Tender Compliance, and Financial Stability.</p>
+    </div>
+    <div class="trust-calculator-wrapper">
+      <div class="card">
+        <div class="card-header">Manual Trust Score Calculator</div>
+        <div class="trust-form" id="trustForm">
+          <div class="trust-input-row">
+            <label>Past Experience (years) <span class="weight-badge">20%</span></label>
+            <input type="range" min="0" max="20" value="8" class="slider" id="ts_exp" oninput="calcTrust()">
+            <span class="slider-val" id="ts_exp_v">8 yrs</span>
+          </div>
+          <div class="trust-input-row">
+            <label>Delivery Quality Score <span class="weight-badge">25%</span></label>
+            <input type="range" min="0" max="100" value="78" class="slider" id="ts_qual" oninput="calcTrust()">
+            <span class="slider-val" id="ts_qual_v">78/100</span>
+          </div>
+          <div class="trust-input-row">
+            <label>Complaints Received (lower=better) <span class="weight-badge">20%</span></label>
+            <input type="range" min="0" max="50" value="5" class="slider" id="ts_comp" oninput="calcTrust()">
+            <span class="slider-val" id="ts_comp_v">5</span>
+          </div>
+          <div class="trust-input-row">
+            <label>Tender Compliance Rate (%) <span class="weight-badge">25%</span></label>
+            <input type="range" min="0" max="100" value="85" class="slider" id="ts_tend" oninput="calcTrust()">
+            <span class="slider-val" id="ts_tend_v">85%</span>
+          </div>
+          <div class="trust-input-row">
+            <label>Financial Stability Score <span class="weight-badge">10%</span></label>
+            <input type="range" min="0" max="100" value="70" class="slider" id="ts_fin" oninput="calcTrust()">
+            <span class="slider-val" id="ts_fin_v">70/100</span>
+          </div>
+        </div>
+        <div class="trust-result-box">
+          <div class="trust-score-display" id="trustScoreDisplay">--</div>
+          <div class="trust-label" id="trustLabel">Enter values above</div>
+          <div class="trust-breakdown" id="trustBreakdown"></div>
+        </div>
+      </div>
+      <div class="card span-2">
+        <div class="card-header">All Vendors — Trust Score Leaderboard</div>
+        <div id="trustLeaderboard"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════ -->
+  <!--                  REPORTS TAB                    -->
+  <!-- ═══════════════════════════════════════════════ -->
+  <div class="tab-content" id="tab-reports">
+    <div class="page-header"><h1>EVALUATION REPORTS</h1></div>
+    <div class="reports-grid">
+      <div class="report-card" onclick="generateReport('full')">
+        <div class="report-icon">📋</div>
+        <div class="report-title">Full Evaluation Report</div>
+        <div class="report-desc">Complete analysis of all vendors including scores, compliance, price</div>
+        <button class="btn-primary">Generate PDF</button>
+      </div>
+      <div class="report-card" onclick="generateReport('risk')">
+        <div class="report-icon">🚨</div>
+        <div class="report-title">Risk Assessment Report</div>
+        <div class="report-desc">All anomalies, flags, and suspicious activity summary</div>
+        <button class="btn-primary">Generate PDF</button>
+      </div>
+      <div class="report-card" onclick="generateReport('trust')">
+        <div class="report-icon">⭐</div>
+        <div class="report-title">Trust Score Report</div>
+        <div class="report-desc">Vendor trust rankings and factor-wise breakdown</div>
+        <button class="btn-primary">Generate PDF</button>
+      </div>
+      <div class="report-card" onclick="generateReport('price')">
+        <div class="report-icon">💰</div>
+        <div class="report-title">Price Comparison Report</div>
+        <div class="report-desc">Market vs bid price analysis with recommendations</div>
+        <button class="btn-primary">Generate PDF</button>
+      </div>
+    </div>
+    <div class="card" style="margin-top:20px" id="reportOutput" style="display:none">
+      <div class="card-header" id="reportTitle">Report Preview</div>
+      <div id="reportContent"></div>
+    </div>
+  </div>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
